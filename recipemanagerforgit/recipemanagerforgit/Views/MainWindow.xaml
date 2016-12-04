@@ -1,0 +1,52 @@
+﻿<Window x:Class="recipemanagerforgit.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:recipemanagerforgit.ViewModels"
+        xmlns:models="clr-namespace:recipemanagerforgit.Models"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="350"
+        Width="525">
+    <Window.DataContext>
+        <viewmodels:MainViewModel></viewmodels:MainViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="RecipeListTemplate"
+                          DataType="models:Recipe">
+                <TextBlock Text="{Binding RecipeName}"></TextBlock>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0">
+            <ListBox ItemsSource="{Binding Path=RecipeList}"
+                     ItemTemplate="{StaticResource RecipeListTemplate}"
+                     SelectedItem="{Binding RecipeListSelectedItemRecipe ,Mode=TwoWay}">
+            </ListBox>
+            <Button Height="20"
+                    Width="100"
+                    Margin="5"
+                    Content="Delete Recipe"/>
+            <Button Width="100"
+                    Height="20"
+                    Margin="5"
+                    Content="Add recipe"></Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <ListBox ItemsSource="{Binding RecipeListSelectedItemRecipe.IngredientList}"
+                    ></ListBox>
+            <Button Height="20"
+                    Width="100"
+                    Margin="5"
+                    Content="Delete Ingredient"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
