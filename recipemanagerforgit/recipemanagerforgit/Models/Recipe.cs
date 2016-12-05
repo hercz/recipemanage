@@ -2,9 +2,9 @@
 
 namespace recipemanagerforgit.Models
 {
-    class Recipe
+    internal class Recipe
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string RecipeName { get; set; }
         public List<string> IngredientList { get; set; }
     }
