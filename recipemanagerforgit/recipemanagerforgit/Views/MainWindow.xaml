@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:recipemanagerforgit.ViewModels"
-        xmlns:models="clr-namespace:recipemanagerforgit.Models"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="350"
@@ -14,38 +13,62 @@
     </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="RecipeListTemplate"
-                          DataType="models:Recipe">
-                <TextBlock Text="{Binding RecipeName}"></TextBlock>
-            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/mainViewStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="../Themes/Generic.WPF.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0">
-            <ListBox ItemsSource="{Binding Path=RecipeList}"
-                     ItemTemplate="{StaticResource RecipeListTemplate}"
-                     SelectedItem="{Binding RecipeListSelectedItemRecipe ,Mode=TwoWay}">
-            </ListBox>
-            <Button Height="20"
-                    Width="100"
-                    Margin="5"
-                    Content="Delete Recipe"/>
-            <Button Width="100"
-                    Height="20"
-                    Margin="5"
-                    Content="Add recipe"></Button>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0">
+            <TextBlock Style="{StaticResource Heading1}"
+                       Text="List of Recipes:"></TextBlock>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <ListBox ItemsSource="{Binding RecipeListSelectedItemRecipe.IngredientList}"
-                    ></ListBox>
-            <Button Height="20"
-                    Width="100"
-                    Margin="5"
-                    Content="Delete Ingredient"/>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1">
+            <ListBox  ItemsSource="{Binding Path=RecipeList}"
+                     ItemTemplate="{StaticResource RecipeListTemplate}"
+                     SelectedItem="{Binding RecipeListSelectedItemRecipe}"
+                     Height="{StaticResource }">
+            </ListBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom">
+            <Button Content="Add"
+                        Style="{StaticResource ButonStyle}"/>
+            <Button Style="{StaticResource ButonStyle}"
+                    Content="Edit"/>
+            <Button Command="{Binding DeleteRecipeCommand}"
+                    Style="{StaticResource ButonStyle}"
+                    Content="Delete"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Name of the recipe: "
+                           Style="{StaticResource Heading1}"/>
+                <TextBlock Text="{Binding RecipeListSelectedItemRecipe.RecipeName}"
+                           Style="{StaticResource Heading2}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Ingredients:"
+                           Style="{StaticResource Heading2}"></TextBlock>
+                <ItemsControl ItemsSource="{Binding RecipeListSelectedItemRecipe.IngredientList}"
+                              Style="{StaticResource StandardText}"></ItemsControl>
+            </StackPanel>
         </StackPanel>
 
     </Grid>

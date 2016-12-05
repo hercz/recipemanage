@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using recipemanagerforgit.Commands;
 using recipemanagerforgit.Models;
 
 namespace recipemanagerforgit.ViewModels
 {
-    class MainViewModel : AbstractMainViewModel
+    internal class MainViewModel : AbstractMainViewModel
     {
         public ObservableCollection<Recipe> RecipeList { get; set; }
         public MainViewModel()
@@ -17,23 +19,33 @@ namespace recipemanagerforgit.ViewModels
             RecipeList = new ObservableCollection<Recipe>()
             {
                 new Recipe { RecipeName = "Kacsacsomb", IngredientList = new List<string> { "Kacsa", "comb" } },
-                new Recipe { RecipeName = "sultkolbasy", IngredientList = new List<string> { "diszno", "kolbasz" } },
+                new Recipe { RecipeName = "sultkolbasz", IngredientList = new List<string> { "diszno", "kolbasz" } },
                 new Recipe { RecipeName = "spagetti", IngredientList = new List<string> { "daralthus", "teszta", "paradicsom" } }
             };
         }
 
-        private Recipe myrecipeListSelectedItemRecipe;
+        private Recipe myRecipeListSelectedItemRecipe;
         public Recipe RecipeListSelectedItemRecipe
         {
             get
             {
-                return myrecipeListSelectedItemRecipe;
+                return myRecipeListSelectedItemRecipe;
             }
             set
             {
-                myrecipeListSelectedItemRecipe = value;
+                myRecipeListSelectedItemRecipe = value;
                 OnPropertyChanged();
             }
+        }
+
+        public ICommand DeleteRecipeCommand
+        {
+            get { return new DelegateCommand(DeleteRecipe); }
+        }
+
+        private void DeleteRecipe()
+        {
+            RecipeList.Remove(RecipeListSelectedItemRecipe);
         }
     }
 }
